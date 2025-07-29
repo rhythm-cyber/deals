@@ -1,0 +1,2 @@
+# deals
+for affiliate
