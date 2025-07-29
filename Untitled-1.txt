@@ -1,0 +1,15 @@
+{
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Debug FastAPI (uvicorn)",
+      "module": "uvicorn",
+      "args": [
+        "main:app",
+        "--reload"
+      ],
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
