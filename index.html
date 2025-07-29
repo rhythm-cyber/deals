@@ -81,52 +81,44 @@
     <a href="https://merchant.razorpay.com/policy/QyjshXj60OV9Wo/contact_us" target="_blank">Contact</a>
   </footer>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <script>
-   fetch("https://2827cb76-da93-48c9-aeed-ae06814c6419-00-1wxu92n8j07rv.pike.replit.dev/amazon-deals")
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data); // For testing
-    // Display data in your site
-  });
-
-    // you can change endpoint to /amazon-deals if needed
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("deals");
-        data.forEach(deal => {
-          const card = document.createElement("div");
-          card.className = "deal-card";
-          card.innerHTML = `
-            <h3>${deal.title}</h3>
-            <button onclick="payAndOpen('${deal.affiliate_link}')">Unlock Deal ₹0.89</button>
-          `;
-          container.appendChild(card);
-        });
+ <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  // Fetch deals from your Replit FastAPI backend
+  fetch("https://2827cb76-da93-48c9-aeed-ae06814c6419-00-1wxu92n8j07rv.pike.replit.dev/amazon-deals")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("deals");
+      data.forEach(deal => {
+        const card = document.createElement("div");
+        card.className = "deal-card";
+        card.innerHTML = `
+          <h3>${deal.title}</h3>
+          <button onclick="payAndOpen('${deal.affiliate_link}')">Unlock Deal ₹0.89</button>
+        `;
+        container.appendChild(card);
       });
+    });
 
-    function payAndOpen(link) {
-      fetch("/create-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 89 })
-      })
-      .then(res => res.json())
-      .then(data => {
-        const options = {
-          key: "rzp_test_XXXXXXX", // Replace with your Razorpay Key
-          amount: data.amount,
-          currency: "INR",
-          name: "Deal Unlock",
-          order_id: data.id,
-          handler: function (response) {
-            window.open(link, "_blank");
-          }
-        };
-        const rzp = new Razorpay(options);
-        rzp.open();
-      });
-    }
-  </script>
-</body>
-</html>
+  function payAndOpen(link) {
+    fetch("https://2827cb76-da93-48c9-aeed-ae06814c6419-00-1wxu92n8j07rv.pike.replit.dev/create-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 89 })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const options = {
+        key: "rzp_test_XXXXXXX", // TODO: Replace with your real Razorpay Key
+        amount: data.amount,
+        currency: "INR",
+        name: "Deal Unlock",
+        order_id: data.id,
+        handler: function (response) {
+          window.open(link, "_blank");
+        }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+  }
+</script>
