@@ -83,7 +83,13 @@
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    fetch("/amazon-deals")
+   fetch("https://2827cb76-da93-48c9-aeed-ae06814c6419-00-1wxu92n8j07rv.pike.replit.dev/amazon-deals")
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data); // For testing
+    // Display data in your site
+  });
+
     // you can change endpoint to /amazon-deals if needed
       .then(res => res.json())
       .then(data => {
